@@ -1,0 +1,17 @@
+{
+  "name": "pw-tpl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "pw-tpl": "./index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^11.1.0"
+  }
+}
