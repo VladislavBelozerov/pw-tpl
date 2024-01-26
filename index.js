@@ -1,8 +1,8 @@
 #! /usr/bin/env node
+import {program} from "commander";
+import init from "./commands/init.js";
+import {runCommand} from "./runCommand.js";
 
-const { program } = require('commander');
-const init = require('commands/init');
-
-program.command('init').description('Initialize project').action(init)
+program.command('init').description('Initialize project').action(() => runCommand(init))
 
 program.parse();
