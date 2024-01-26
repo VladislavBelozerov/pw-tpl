@@ -11,7 +11,6 @@
   },
   "type": "module",
   "author": "Vladislav Belozerov <vladislavbelozerov@icloud.com>",
-  "license": "ISC",
   "dependencies": {
     "adm-zip": "^0.5.10",
     "chalk": "^5.3.0",
@@ -19,5 +18,14 @@
     "inquirer": "^9.2.12",
     "ora": "^8.0.1",
     "superagent": "^8.1.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VladislavBelozerov/pw-tpl"
+  },
+  "homepage": "https://github.com/VladislavBelozerov/pw-tpl",
+  "bugs": {
+    "url": "https://github.com/VladislavBelozerov/pw-tpl/issues"
+  },
+  "license": "MIT"
 }
