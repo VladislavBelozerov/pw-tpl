@@ -1,6 +1,6 @@
 {
   "name": "pw-tpl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Fast pw template setup",
   "main": "index.js",
   "scripts": {
