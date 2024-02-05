@@ -9,6 +9,7 @@ const ENV_KEY = 'GITLAB_API_TOKEN'
 const init = () => new Promise((resolve, reject) => {
     const spinner = ora('Initializing project').start()
     const dir = process.cwd()
+    const projectName = 'pug-template'
 
     const abort = (err) => {
         spinner.stop()
