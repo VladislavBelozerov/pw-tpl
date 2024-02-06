@@ -1,9 +1,9 @@
 import chalk from "chalk";
 
-const runCommand = (command) => {
+const runCommand = (command, ...args) => {
     const start = new Date()
 
-    command().then(() => {
+    command(...args).then(() => {
         const end = new Date()
         console.log(chalk.green(`Done in ${Math.ceil((end - start) / 1000)}s`))
         process.exit(0)
