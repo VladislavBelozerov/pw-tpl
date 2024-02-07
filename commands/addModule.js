@@ -1,22 +1,21 @@
-import {fileURLToPath} from "url";
-import path, {dirname} from "path";
+import path from "path";
 import fs from "fs";
 import AdmZip from "adm-zip";
 import ora from "ora";
 import downloadZip from "../utils/downloadZip.js";
 import _ from "lodash";
+import os from "os";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const addModule = (name, options = {}) => new Promise((resolve, reject) => {
     const dir = process.cwd()
-    const scriptDir = path.resolve(__dirname, '../')
+    const tempDir = os.tmpdir()
 
     const copyModule = () => new Promise((resolve, reject) => {
         const ccName = _.capitalize(_.camelCase(name))
         const kcName = _.kebabCase(name)
-        const distDir = `${dir}/src/modules/${ccName}`
+        const distModulesDir = `${dir}/src/modules`
+        const distDir = path.join(distModulesDir, `/${ccName}`)
 
         if (fs.existsSync(distDir)) {
             reject('Module already exists')
@@ -28,20 +27,20 @@ const addModule = (name, options = {}) => new Promise((resolve, reject) => {
             fs.mkdirSync(distDir)
 
             if (!!options.Vue) {
-                const vue = fs.readFileSync(`${scriptDir}/Module/index.vue`, { encoding: 'utf-8'})
+                const vue = fs.readFileSync(`${tempDir}/Module/index.vue`, { encoding: 'utf-8'})
                 fs.writeFileSync(path.join(distDir, '/index.vue'), vue.replaceAll('Module', ccName), { encoding: 'utf-8' })
 
                 resolve()
                 return
             }
 
-            const pug = fs.readFileSync(`${scriptDir}/Module/index.pug`, { encoding: 'utf-8' })
+            const pug = fs.readFileSync(`${tempDir}/Module/index.pug`, { encoding: 'utf-8' })
             fs.writeFileSync(path.join(distDir, '/index.pug'), pug.replaceAll('module', kcName), { encoding: 'utf-8' })
 
-            fs.copyFileSync(`${scriptDir}/Module/index.scss`, path.join(distDir, '/index.scss'))
+            fs.copyFileSync(`${tempDir}/Module/index.scss`, path.join(distDir, '/index.scss'))
 
             if (!!options.Js) {
-                const js = fs.readFileSync(`${scriptDir}/Module/index.js`, { encoding: 'utf-8'})
+                const js = fs.readFileSync(`${tempDir}/Module/index.js`, { encoding: 'utf-8'})
                 fs.writeFileSync(path.join(distDir, '/index.js'), js.replaceAll('_Module', ccName), { encoding: 'utf-8' })
             }
 
@@ -55,7 +54,7 @@ const addModule = (name, options = {}) => new Promise((resolve, reject) => {
             zip.getEntries().forEach((entry) => {
                 if (entry.entryName.includes('/src/modules/Module')) {
                     if (!entry.isDirectory) {
-                        zip.extractEntryTo(entry.entryName, path.join(scriptDir, '/Module'), false, true)
+                        zip.extractEntryTo(entry.entryName, path.join(tempDir, '/Module'), false, true)
                     }
                 }
             })
@@ -66,7 +65,7 @@ const addModule = (name, options = {}) => new Promise((resolve, reject) => {
         }
     })
 
-    if (fs.existsSync(path.join(scriptDir, '/Module'))) {
+    if (fs.existsSync(path.join(tempDir, '/Module'))) {
         copyModule().then(resolve).catch((err) => {
             reject(err)
         })
@@ -74,8 +73,8 @@ const addModule = (name, options = {}) => new Promise((resolve, reject) => {
         return
     }
 
-    if (fs.existsSync(path.join(scriptDir, '/template.zip'))) {
-        const zip = new AdmZip(`${scriptDir}/template.zip`, {})
+    if (fs.existsSync(path.join(tempDir, '/template.zip'))) {
+        const zip = new AdmZip(`${tempDir}/template.zip`, {})
 
         createModuleDir(zip)
             .then(copyModule)

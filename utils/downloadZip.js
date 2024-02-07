@@ -1,16 +1,12 @@
 import request from "superagent";
 import fs from "fs";
 import AdmZip from "adm-zip";
-import path, {dirname} from "path";
-import {fileURLToPath} from "url";
+import os from 'os'
 
 const ENV_KEY = 'GITLAB_API_TOKEN'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 function downloadZip() {
-    const scriptDir = path.resolve(__dirname, '../')
+    const tempDir = os.tmpdir()
     const zipName = 'template'
 
     return new Promise((resolve, reject) => {
@@ -22,11 +18,11 @@ function downloadZip() {
         }
 
         request.get('https://paraweb.space/api/v4/projects/508/repository/archive.zip').set('PRIVATE-TOKEN', token).then((response) => {
-            fs.writeFileSync(`${scriptDir}/${zipName}.zip`, response.body)
-            const zip = new AdmZip(`${scriptDir}/${zipName}.zip`, {})
+            fs.writeFileSync(`${tempDir}/${zipName}.zip`, response.body)
+            const zip = new AdmZip(`${tempDir}/${zipName}.zip`, {})
 
-            if (fs.existsSync(`${scriptDir}/Module`)) {
-                fs.rmSync(`${scriptDir}/Module`, { recursive: true, force: true })
+            if (fs.existsSync(`${tempDir}/Module`)) {
+                fs.rmSync(`${tempDir}/Module`, { recursive: true, force: true })
             }
 
             resolve({ zip })
