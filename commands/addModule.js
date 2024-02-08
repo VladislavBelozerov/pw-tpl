@@ -12,7 +12,13 @@ const addModule = (name, options = {}) => new Promise((resolve, reject) => {
     const tempDir = os.tmpdir()
 
     const copyModule = () => new Promise((resolve, reject) => {
-        const ccName = _.capitalize(_.camelCase(name))
+        const ccName = _.camelCase(name).split('').map((l, i) => {
+            if (i === 0) {
+                return l.toUpperCase()
+            }
+
+            return l
+        }).join('')
         const kcName = _.kebabCase(name)
         const distModulesDir = `${dir}/src/modules`
         const distDir = path.join(distModulesDir, `/${ccName}`)

@@ -23,3 +23,14 @@ Then run:
 $ pw-tpl init
 ```
 And enter the name of new project.
+
+### Module template
+Adding new module template into ```src/modules``` directory.
+
+```bash
+$ pw-tpl add:module [options] <name>
+```
+
+#### Options
+```-js``` Module is JavaScript module.<br>
+```-vue``` Module is Vue module.<br>
