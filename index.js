@@ -11,6 +11,7 @@ program.command('add:module')
     .argument('<name>', 'module name')
     .option('-js', 'includes js file')
     .option('-vue', 'includes vue file')
+    .option('-tests', 'includes test file')
     .description('Add a new module')
     .action((name, options) => runCommand(addModule, name, options))
 

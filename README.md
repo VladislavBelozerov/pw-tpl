@@ -32,5 +32,6 @@ $ pw-tpl add:module [options] <name>
 ```
 
 #### Options
-```-js``` Module is JavaScript module.<br>
-```-vue``` Module is Vue module.<br>
+```-js``` Includes js module file.<br>
+```-vue``` Includes Vue file instead of pug template.<br>
+```-tests``` Includes js test file.<br>

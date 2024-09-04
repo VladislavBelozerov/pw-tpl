@@ -38,10 +38,15 @@ const addModule = (name, options = {}) => new Promise((resolve, reject) => {
 
                 resolve()
                 return
+            } else {
+                const pug = fs.readFileSync(`${tempDir}/Module/index.pug`, { encoding: 'utf-8' })
+                fs.writeFileSync(path.join(distDir, '/index.pug'), pug.replaceAll('module', kcName), { encoding: 'utf-8' })
             }
 
-            const pug = fs.readFileSync(`${tempDir}/Module/index.pug`, { encoding: 'utf-8' })
-            fs.writeFileSync(path.join(distDir, '/index.pug'), pug.replaceAll('module', kcName), { encoding: 'utf-8' })
+            if (!!options.Tests) {
+                const test = fs.readFileSync(`${tempDir}/Module/index.test.js`, { encoding: 'utf-8' })
+                fs.writeFileSync(path.join(distDir, '/index.test.js'), test.replaceAll('_Module', ccName), { encoding: 'utf-8' })
+            }
 
             fs.copyFileSync(`${tempDir}/Module/index.scss`, path.join(distDir, '/index.scss'))
 
