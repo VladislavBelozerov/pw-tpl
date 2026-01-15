@@ -3,13 +3,19 @@ import ora from "ora";
 import downloadZip from "../utils/downloadZip.js";
 
 const init = () => new Promise((resolve, reject) => {
-    const spinner = ora('Initializing project').start()
+    const spinner = ora('Downloading files')
     const dir = process.cwd()
 
-    spinner.text = 'Downloading files'
-    spinner.color = 'yellow'
 
-    downloadZip().then(({ zip }) => {
+
+    downloadZip(() => {
+        spinner.start()
+    }, () => {
+        spinner.stop()
+    }).then(({ zip }) => {
+        spinner.start('Extracting files...')
+        spinner.color = 'yellow'
+
         try {
             zip.getEntries().forEach((entry) => {
                 const p = entry.entryName.split('/')

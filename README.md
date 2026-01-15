@@ -12,17 +12,11 @@ $ yarn global add pw-tpl
 
 ## Features
 ### Quick template setup
-Loads the newest template image into the current working directory.<br>
-First of all you need to set global variable ```GITLAB_API_TOKEN``` with your GitLab private token.
-#### How to set global variable
-[MacOs](https://www.redswitches.com/blog/set-environment-variables-in-macos/)<br>
-[Windows](https://www.devdungeon.com/content/set-environment-variables-windows#toc-7)
+Loads the newest template image into the current working directory.
 
-Then run:
 ```bash
 $ pw-tpl init
 ```
-And enter the name of new project.
 
 ### Module template
 Adding new module template into ```src/modules``` directory.
@@ -33,5 +27,5 @@ $ pw-tpl add:module [options] <name>
 
 #### Options
 ```-js``` Includes js module file.<br>
-```-vue``` Includes Vue file instead of pug template.<br>
+```-jsx``` Includes JSX file instead of pug template and js-module.<br>
 ```-tests``` Includes js test file.<br>
